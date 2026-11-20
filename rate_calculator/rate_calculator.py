@@ -1,25 +1,43 @@
 # 全体の計算
 def main():
-    duration_fee = get_duration_fee()
+    total = 0
+    quote_counter = 0
+    while True:
+        duration_fee = get_duration_fee()
 
-    needs_quote = duration_fee is None  # この書き方だとTrueかFalseになる。 判断結果をメモしておく
-    if needs_quote:
-        duration_fee = 0
+        needs_quote = duration_fee is None  # この書き方だとTrueかFalseになる。 判断結果をメモしておく
+        if needs_quote:
+            duration_fee = 0
 
-    edit_fee = get_fee("Do you need video editing? yes/no ", 100)
+        edit_fee = get_fee("Do you need video editing? yes/no ", 100)
 
-    color_fee = get_fee("Do you need color grading? yes/no ", 50)
+        color_fee = get_fee("Do you need color grading? yes/no ", 50)
 
-    # 制作本数
-    quantity = int(input("How many videos do you need? "))
+        # 制作本数
+        quantity = int(input("How many videos do you need? "))
 
-    unit_price = duration_fee + edit_fee + color_fee
-    subtotal = unit_price * quantity
+        unit_price = duration_fee + edit_fee + color_fee
+        subtotal = unit_price * quantity
+        total += subtotal
+        if needs_quote:
+            quote_counter += 1
 
-    if needs_quote:
-        print(f"Total: ${subtotal} + Custom quote")
+        # 追加するかどうかの繰り返し処理
+        while True:
+            add_more = input("Would you like to add anything else? yes/no ")
+            if add_more == "yes" or add_more == "no":
+                break
+
+        # yesが来た時は最初からループして、noならprintに行く
+        if add_more == "no":
+            break
+
+    if quote_counter == 1:
+        print(f"Total: ${total} + Custom quote ({quote_counter} Video)")
+    elif quote_counter > 1:
+        print(f"Total: ${total} + Custom quote ({quote_counter} Videos)")
     else:
-        print(f"Total: ${subtotal}")
+        print(f"Total: ${total}")
 
 
 # 完成尺の長さ, 30 , 60 , 90
