@@ -2,6 +2,10 @@
 def main():
     duration_fee = get_duration_fee()
 
+    needs_quote = duration_fee is None  # この書き方だとTrueかFalseになる。 判断結果をメモしておく
+    if needs_quote:
+        duration_fee = 0
+
     edit_fee = get_fee("Do you need video editing? yes/no ")
 
     color_fee = get_fee("Do you need color grading? yes/no ")
@@ -10,10 +14,12 @@ def main():
     quantity = int(input("How many videos do you need? "))
 
     unit_price = duration_fee + edit_fee + color_fee
-
     subtotal = unit_price * quantity
 
-    print(f"Total: ${subtotal}")
+    if needs_quote:
+        print(f"Total: ${subtotal} + Custom quote")
+    else:
+        print(f"Total: ${subtotal}")
 
 
 # 完成尺の長さ, 30 , 60 , 90
@@ -29,8 +35,10 @@ def get_duration_fee():
         return 100
     elif 60 < duration <= 90:
         return 150
-    else:
+    elif 90 < duration <= 120:
         return 200
+    else:
+        return None
 
 
 # 編集は必要か、単価
