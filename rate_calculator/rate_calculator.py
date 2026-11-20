@@ -6,9 +6,9 @@ def main():
     if needs_quote:
         duration_fee = 0
 
-    edit_fee = get_fee("Do you need video editing? yes/no ")
+    edit_fee = get_fee("Do you need video editing? yes/no ", 100)
 
-    color_fee = get_fee("Do you need color grading? yes/no ")
+    color_fee = get_fee("Do you need color grading? yes/no ", 50)
 
     # 制作本数
     quantity = int(input("How many videos do you need? "))
@@ -40,39 +40,16 @@ def get_duration_fee():
     else:
         return None
 
-
-# 編集は必要か、単価
-# def get_editing_fee():
-#     while True:
-#         edit = input("Do you need video editing? yes/no ")
-#         if edit == "yes" or edit == "no":
-#             break
-#     if edit == "yes":
-#         return 50
-#     else:
-#         return 0
-
-# # カラグレは必要か、　単価
-
-# def get_color_fee():
-#     while True:
-#         color = input("Do you need color grading? yes/no ")
-#         if color == "yes" or color == "no":
-#             break
-#     if color == "yes":
-#         return 50
-#     else:
-#         return 0
-
-
 # fee計算
-def get_fee(question):
+
+
+def get_fee(question, rate):
     while True:
         answer = input(question)
         if answer == "yes" or answer == "no":
             break
     if answer == "yes":
-        return 50
+        return rate
     else:
         return 0
 
